@@ -2,6 +2,7 @@
 #define _BINARY_SEARCH_TREE_H_
 
 
+#include <stdexcept>
 #include "BinaryTree.h"
 
 using namespace std;
@@ -32,14 +33,22 @@ template <typename T>
 const T& BinarySearchTree<T>::get_min()
 {
 	BinaryTreeNode<T> *min_node = get_min(root);
-	return min_node->data;
+
+	if(min_node != NULL)
+		return min_node->data;
+	else
+		throw runtime_error();
 }
 
 template <typename T>
 const T& BinarySearchTree<T>::get_max()
 {
 	BinaryTreeNode<T> *max_node = get_max(root);
-	return max_node->data;
+	
+	if(max_node != NULL)
+		return max_node->data;
+	else
+		throw runtime_error();
 }
 
 template <typename T>
