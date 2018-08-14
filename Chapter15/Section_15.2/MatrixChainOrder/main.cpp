@@ -90,13 +90,14 @@ void MatrixChainOrder(const int matrixDim[], int matrixDimCount)
 		delete[] multiplyTimes[i];
 		delete[] dividePos[i];
 	}
+
+	delete[] multiplyTimes;
+	delete[] dividePos;
 }
 
 int main()
 {
-	//const int matrixDimTable[7] ={5, 10, 3, 12, 5, 50, 6};
 	const int matrixDimTable[] ={30, 35, 15, 5, 10, 20, 25};
-	//const int matrixDimTable[] ={2, 3, 4, 4};
 
 	MatrixChainOrder(matrixDimTable, sizeof(matrixDimTable)/sizeof(int));
 
