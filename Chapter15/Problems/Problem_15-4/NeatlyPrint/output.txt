@@ -1,0 +1,10 @@
+If you wish to implement any of the algorithms, you should||||||
+find the translation of our pseudocode into your favorite|||||||
+programming language to be a fairly straightforward task. We||||
+have designed the pseudocode to present each algorithm clearly||
+and succinctly. Consequently, we do not address error-handling||
+and other software-engineering issues that require specific|||||
+assumptions about your programming environment. We attempt to|||
+present each algorithm simply and directly without allowing the|
+idiosyncrasies of a particular programming language to obscure||
+its essence.||||||||||||||||||||||||||||||||||||||||||||||||||||
