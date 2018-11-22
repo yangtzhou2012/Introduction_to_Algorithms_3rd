@@ -54,8 +54,18 @@ void ImageSeam::Clear()
 	width = 0;
 	height = 0;
 	totalDisruption = 0;
-	if (disruption != NULL) delete[] disruption;
-	if (seamChain != NULL) delete[] seamChain;
+
+	if (disruption != NULL)
+	{
+		delete[] disruption;
+		disruption = NULL;
+	}
+
+	if (seamChain != NULL)
+	{
+		delete[] seamChain;
+		seamChain = NULL;
+	}
 }
 
 void ImageSeam::GenerateRandomDisruption()
