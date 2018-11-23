@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-	int splitPos[] = { 9, 1, 7 };
+	int splitPos[] = { 9, 1, 7 };	// string index starts from 0
 	StringSplit strSplit;
 	
 	strSplit.SetLengthPosition(20, sizeof(splitPos)/sizeof(int), splitPos);
@@ -16,6 +16,6 @@ int main()
 	{
 		int sp = strSplit.GetsplitOrder()[i];
 		cout << "step_" << setw(2) << setfill('0') << i << "\t\t";
-		cout << "split_pos = " << sp+1 << "\n";
+		cout << "split_pos = " << sp << "\n";
 	}
 }
