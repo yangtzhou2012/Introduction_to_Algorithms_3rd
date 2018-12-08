@@ -102,7 +102,10 @@ template <typename T>
 void DMaxHeap<T>::clear()
 {
 	if (data != NULL)
+	{
 		delete[] data;
+		data = NULL;
+	}
 
 	theSize = 0;
 	theCapacity = SPARE_CAPACITY;
