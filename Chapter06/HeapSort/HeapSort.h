@@ -12,7 +12,7 @@ void MaxHeapify(T data[], int n, int i)
 	T tmp = data[i];
 	int left = LEFT(i);
 
-	while (left < n)
+	while(left < n)
 	{
 		int right = left + 1;
 		int maxChild = (right < n && data[left] < data[right]) ? right : left;
