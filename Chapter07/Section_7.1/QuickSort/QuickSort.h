@@ -12,7 +12,7 @@ inline void swap(T &x, T &y)
 template <typename T>
 int partition(T data[], int left, int right)
 {
-	for (int i = left; i < right; ++i)
+	for(int i = left; i < right; ++i)
 	{
 		if (data[i] <= data[right])
 		{
@@ -28,7 +28,7 @@ int partition(T data[], int left, int right)
 template <typename T>
 void quick_sort(T data[], int left, int right)
 {
-	if (left < right)
+	if(left < right)
 	{
 		int mid = partition(data, left, right);
 		quick_sort(data, left, mid-1);
