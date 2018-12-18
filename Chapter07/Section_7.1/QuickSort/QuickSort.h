@@ -28,7 +28,7 @@ int partition(T data[], int left, int right)
 template <typename T>
 void quick_sort(T data[], int left, int right)
 {
-	if (left < right)
+	if(left < right)
 	{
 		int mid = partition(data, left, right);
 		quick_sort(data, left, mid-1);
