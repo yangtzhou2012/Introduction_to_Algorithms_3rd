@@ -12,7 +12,7 @@ inline void swap(T &x, T &y)
 template <typename T>
 int partition(T data[], int left, int right)
 {
-	for (int i = left; i < right; ++i)
+	for(int i = left; i < right; ++i)
 	{
 		if (data[i] <= data[right])
 		{
