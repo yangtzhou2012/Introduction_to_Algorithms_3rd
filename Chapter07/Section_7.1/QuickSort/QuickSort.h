@@ -4,9 +4,12 @@
 template <typename T>
 inline void swap(T &x, T &y)
 {
-	T tmp = x;
-	x = y;
-	y = tmp;
+	if(&x != &y)
+	{
+		T tmp = x;
+		x = y;
+		y = tmp;
+	}
 }
 
 template <typename T>
