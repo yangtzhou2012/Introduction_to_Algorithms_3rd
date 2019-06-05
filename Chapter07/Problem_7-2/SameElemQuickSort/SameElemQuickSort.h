@@ -33,7 +33,9 @@ SplitPosType same_elem_partition(T data[], int left, int right)
 			q++;
 			t++;
 			swap(data[q], data[k]);
-			swap(data[t], data[k]);
+			
+			if(q != t)
+				swap(data[t], data[k]);
 		}
 		else if(data[k] == data[right])
 		{

@@ -23,7 +23,7 @@ int main()
 	PrintArray(a2, sizeof(a2)/sizeof(int));
 	cout << "\n\n";
 
-	int a3[] = { 2, 2, 2 };
+	int a3[] = { 2, 2, 2, 2 };
 	same_elem_quick_sort(a3, sizeof(a3)/sizeof(int));
 	PrintArray(a3, sizeof(a3)/sizeof(int));
 	cout << "\n\n";
@@ -38,9 +38,24 @@ int main()
 	PrintArray(a5, sizeof(a5)/sizeof(int));
 	cout << "\n\n";
 
-	int a6[] = { 2, 6, 4, 3, 5, 2 };
+	int a6[] = { 2, 6, 4, 3, 5 };
 	same_elem_quick_sort(a6, sizeof(a6)/sizeof(int));
 	PrintArray(a6, sizeof(a6)/sizeof(int));
+	cout << "\n\n";
+
+	int a7[] = { 1, 2, 3, 4, 5, 6, 7 };
+	same_elem_quick_sort(a7, sizeof(a7)/sizeof(int));
+	PrintArray(a7, sizeof(a7)/sizeof(int));
+	cout << "\n\n";
+
+	int a8[] = { 7, 6, 5, 4, 3, 2, 1 };
+	same_elem_quick_sort(a8, sizeof(a8)/sizeof(int));
+	PrintArray(a8, sizeof(a8)/sizeof(int));
+	cout << "\n\n";
+
+	int a9[] = { 2, 3, 6, 3, 4, 3, 5 };
+	same_elem_quick_sort(a9, sizeof(a9)/sizeof(int));
+	PrintArray(a9, sizeof(a9)/sizeof(int));
 	cout << "\n\n";
 
 	return 0;
