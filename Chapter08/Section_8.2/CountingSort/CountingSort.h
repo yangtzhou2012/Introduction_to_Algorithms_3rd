@@ -5,7 +5,7 @@ template <typename T>
 void counting_sort(T src[], T dst[], int n, int min, int max)
 {
 	int range = max - min + 1;
-	T *count = new T[range];
+	int *count = new int[range];
 
 	for (int i = 0; i < range; ++i)
 		count[i] = 0;
