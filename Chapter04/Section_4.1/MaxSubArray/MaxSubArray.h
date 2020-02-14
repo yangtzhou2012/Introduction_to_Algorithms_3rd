@@ -81,7 +81,7 @@ static void FindMaxSubarray(T data[], int low, int high,
 template <typename T>
 bool FindMaxSubarray(T data[], int n, int &maxLow, int &maxHigh, T &maxSum)
 {
-	if (data == NULL || n < 0)
+	if (data == NULL || n <= 0)
 		return false;
 
 	FindMaxSubarray(data, 0, n-1, maxLow, maxHigh, maxSum);
