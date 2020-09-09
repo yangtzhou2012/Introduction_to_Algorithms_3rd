@@ -1,166 +1,135 @@
 #ifndef _FIND_SECOND_MIN_H_
 #define _FIND_SECOND_MIN_H_
 
-#include <list>
-#include <iostream>
+#define DEBUG_INFO_EN	0
 
+#if DEBUG_INFO_EN
+#include <fstream>
 using namespace std;
+#endif
 
-//#define _DEBUG_INFO_ENABLE_
-#define _DEBUG_COMPARE_TIMES_ENABLE_
-
-struct CompareTable
+struct TreeNode
 {
-	int num;
-	int *table;
-	bool *leftLess;
+	int idx;
+	TreeNode *left;
+	TreeNode *right;
 };
 
+static void DestroyTree(TreeNode *root)
+{
+	if (root)
+	{
+		TreeNode *l = root->left;
+		TreeNode *r = root->right;
+
+		delete root;
+		DestroyTree(l);
+		DestroyTree(r);
+	}
+}
+
+// return value: the index of the second minimal element
 template <typename T>
-int FindSecondMin(const T data[], int n
-#ifdef _DEBUG_COMPARE_TIMES_ENABLE_
-				  , int &compareTimes
-#endif
-)
+int FindSecondMin(const T data[], int n)
 {
 	if (data == NULL || n < 2)
 		return -1;
 
-	list<CompareTable*> cmpTableList;
+	TreeNode **curLayer = new TreeNode*[n];
+	TreeNode **nextLayer = new TreeNode*[(n+1)/2];
+	int curLayerNodeCnt = n;
+	int nextLayerNodeCnt = 0;
+	int i = 0;
 
-	CompareTable *cur = new CompareTable;
-
-	cur->num = n;
-	cur->table = new int[cur->num];
-	cur->leftLess = NULL;
-	for (int i = 0; i < n; ++i)
-		cur->table[i] = i;
-
-	cmpTableList.push_back(cur);
-
-#ifdef _DEBUG_INFO_ENABLE_
-	cout << "Array:\t";
-	for (int i = 0; i < n; ++i)
-		cout << data[i] << "\t";
-	cout << "\n";
-
-	int round = 0;
-	cout << "Round " << round << ":\t";
-	round++;
-	for (int i = 0; i < cur->num; ++i)
-		cout << cur->table[i] << "\t";
-	cout << "\n";
+#if DEBUG_INFO_EN
+	ofstream os("debug.txt");
 #endif
 
-#ifdef _DEBUG_COMPARE_TIMES_ENABLE_
-	compareTimes = 0;
-#endif
-
-	while (cur->num > 1)
+	for (i = 0; i < n; ++i)
 	{
-		CompareTable *next = new CompareTable;
-
-		next->num = cur->num / 2;
-		if ((cur->num & 1) == 1)
-			next->num++;
-
-		next->leftLess = new bool[next->num];
-		next->table = new int[next->num];
-
-		int k = 0;
-		for (int i = 0; i < cur->num - 1; i += 2)
-		{
-#ifdef _DEBUG_COMPARE_TIMES_ENABLE_
-			compareTimes++;
+		TreeNode *node = new TreeNode;
+		node->idx = i;
+		node->left = node->right = NULL;
+		curLayer[i] = node;
+#if DEBUG_INFO_EN
+		os << node->idx << "[" << data[node->idx] << "]\t";
 #endif
-			if (data[cur->table[i]] <= data[cur->table[i+1]])
+	}
+
+#if DEBUG_INFO_EN
+	os << "\n";
+#endif
+
+	while (curLayerNodeCnt > 1)
+	{
+		nextLayerNodeCnt = 0;
+
+		for (i = 0; i < curLayerNodeCnt-1; i += 2)
+		{
+			TreeNode *node = new TreeNode;
+			int idx1 = curLayer[i]->idx;
+			int idx2 = curLayer[i+1]->idx;
+
+			if (data[idx1] < data[idx2])
 			{
-				next->table[k] = cur->table[i];
-				next->leftLess[k++] = true;
+				node->idx = idx1;
+				node->left = curLayer[i];
+				node->right = curLayer[i+1];
 			}
 			else
 			{
-				next->table[k] = cur->table[i+1];
-				next->leftLess[k++] = false;
+				node->idx = idx2;
+				node->left = curLayer[i+1];
+				node->right = curLayer[i];
 			}
-		}
 
-		if ((cur->num & 1) == 1)
-		{
-			next->table[k] = cur->table[cur->num-1];
-			next->leftLess[k] = true;
-		}
-
-		cur = next;
-		cmpTableList.push_back(cur);
-
-#ifdef _DEBUG_INFO_ENABLE_
-		cout << "Round " << round << ":\t";
-		round++;
-		for (int i = 0; i < cur->num; ++i)
-			cout << cur->table[i] << "\t";
-		cout << "\n";
+			nextLayer[nextLayerNodeCnt] = node;
+			nextLayerNodeCnt++;
+#if DEBUG_INFO_EN
+			os << node->idx << "[" << data[node->idx] << "]\t";
 #endif
-	}
-
-	list<CompareTable*>::reverse_iterator it = cmpTableList.rbegin();
-	cur = *it++;
-
-	int curMinId;
-	int secondMinId;
-	int tempId;
-
-	if (cur->leftLess[0])
-	{
-		curMinId = 0;
-		secondMinId = (*it)->table[1];
-	}
-	else
-	{
-		curMinId = 1;
-		secondMinId = (*it)->table[0];
-	}
-
-	cur = *it++;
-
-	while (it != cmpTableList.rend())
-	{
-		if (cur->leftLess[curMinId])
-		{
-			curMinId = curMinId * 2;
-
-			if (curMinId < (*it)->num - 1)
-				tempId = (*it)->table[curMinId+1];
-			else
-				tempId = -1;
-		}
-		else
-		{
-			curMinId = curMinId * 2 + 1;
-			tempId = (*it)->table[curMinId-1];
 		}
 
-		if (tempId >= 0)
+		if (i == curLayerNodeCnt-1)
 		{
-#ifdef _DEBUG_COMPARE_TIMES_ENABLE_
-			compareTimes++;
+			TreeNode *node = new TreeNode;
+			node->idx = curLayer[i]->idx;
+			node->left = curLayer[i]->left;
+			node->right = curLayer[i]->right;
+
+			nextLayer[nextLayerNodeCnt] = node;
+			nextLayerNodeCnt++;
+#if DEBUG_INFO_EN
+			os << node->idx << "[" << data[node->idx] << "]\t";
 #endif
-			if (data[tempId] < data[secondMinId])
-				secondMinId = tempId;
 		}
 
-		cur = *it++;
+#if DEBUG_INFO_EN
+		os << "\n";
+#endif
+
+		TreeNode **temp = curLayer;
+		curLayer = nextLayer;
+		nextLayer = temp;
+		curLayerNodeCnt = nextLayerNodeCnt;
 	}
 
-	for (it = cmpTableList.rbegin(); it != cmpTableList.rend(); ++it)
+	TreeNode *node = *curLayer;
+	int secondMinIdx = node->right->idx;
+	node = node->left;
+
+	while (node->left)
 	{
-		delete[] (*it)->table;
-		delete[] (*it)->leftLess;
-		delete (*it);
-		*it = NULL;
+		if (data[node->right->idx] < data[secondMinIdx])
+			secondMinIdx = node->right->idx;
+
+		node = node->left;
 	}
 
-	return secondMinId;
+	DestroyTree(*curLayer);
+	delete[] curLayer;
+	delete[] nextLayer;
+	return secondMinIdx;
 }
 
 #endif // #ifndef _FIND_SECOND_MIN_H_
